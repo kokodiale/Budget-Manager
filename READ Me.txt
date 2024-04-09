@@ -1,0 +1,10 @@
+main.py              #plik wykonawczy, starajmy sie nie pisać tam funkcji
+budget_manager.py    #kod z napisaną przez Ciebie klasą
+
+
+Używane biblioteki:
+Rich      # biblioteka do ulepszenia kosoli
+Dokumentacja, git hub oraz film do przedstawienia jak to mniej więcej działa
+https://www.youtube.com/watch?v=4zbehnz-8QU  -szybki film jak działa tak mniej więcej
+https://rich.readthedocs.io/en/stable/         
+https://github.com/Textualize/rich
