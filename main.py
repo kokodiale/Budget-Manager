@@ -1,7 +1,5 @@
 import budget_manager
-
-
-
+import table
 
 
 if __name__=="__main__":
@@ -9,12 +7,8 @@ if __name__=="__main__":
     manager.set_monthly_income()
 
     while True:
-        print("\n--- Menu ---")
-        print("1. Add expense")
-        print("2. View budget")
-        print("3. View balance")
-        print("4. Finish")
-
+        table.menu()
+        
         menu_choice = input("Select option (1/2/3/4): ")
 
         if menu_choice == '1':
