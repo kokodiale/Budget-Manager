@@ -1,3 +1,5 @@
+import requests
+
 class BudgetManager:
     def __init__(self):
         self.wallet = 0
@@ -14,7 +16,20 @@ class BudgetManager:
             'Other': 0,
         }
         self.currency = "PLN" #domyslna
+
+    def convert_currency(self, amount, from_currency, to_currency):
+        api_key = "4223bdbede054fb99c1b93ab385d3c20"
+        url = f"https://open.er-api.com/v6/latest/{from_currency}"
+        response = requests.get(url)
         
+        if response.status_code == 200:
+            data = response.json()
+            conversion_rate = data['rates'][to_currency]
+            converted_amount = amount * conversion_rate
+            return converted_amount
+        else:
+            print("Failed to fetch conversion rate. Please try again later.")
+            return None
             
     def set_monthly_income(self):
         self.monthly_income = float(input("Specify your monthly income: "))
