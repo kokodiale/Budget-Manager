@@ -1,5 +1,7 @@
-
+from rich import print
 import pandas as pd
+from rich.prompt import Prompt, FloatPrompt
+
 class BudgetManager:
     def __init__(self):
         self.wallet = 0
@@ -34,7 +36,7 @@ class BudgetManager:
         print(f"Data succesfully exported to {filename}")
 
     def set_monthly_income(self):
-        self.monthly_income = float(input("Specify your monthly income: "))
+        self.monthly_income = FloatPrompt.ask("Specify your monthly income: ")                 # float(input("Specify your monthly income: "))
         self.wallet = self.monthly_income
         self.currency = user_currency()
 
@@ -93,7 +95,7 @@ def user_currency():
     print("4. JPY")
     print("5. other")
 
-    currency_choice = input("Select option (1/2/3/4/5): ")
+    currency_choice = Prompt.ask("Select option", choices=["1", "2", "3", "4", "5"])                 # input("Select option (1/2/3/4/5): ")
 
     if currency_choice == '1':
         return "PLN"
@@ -104,7 +106,7 @@ def user_currency():
     elif currency_choice == '4':
         return "JPY"
     elif currency_choice == '5':
-        other_currency = input("Enter the abbreviation of your own currency: ")
+        other_currency = Prompt.ask("Enter the abbreviation of your own currency: ")                      #input("Enter the abbreviation of your own currency: ")
         return other_currency.upper()
     else:
         print("Incorrect selection. Try again.")
@@ -123,18 +125,20 @@ if __name__ == "__main__":
         print("4. Finish")
         print("5. Export to Excel")
 
-        menu_choice = input("Select option (1/2/3/4/5): ")
+        menu_choice = Prompt.ask("Select option", choices=["1", "2", "3", "4", "5"])       #input("Select option (1/2/3/4/5): ")
 
-#printa zamienic na print z category_tup
+#printa zamienic na print z category_tup(zrobione ':)' )
         if menu_choice == '1':
-            print("\nPossible categories: \n1)---Housing---\n2)---Transportation---\n3)---Food---\n4)---Utilities---\n5)---Clothing---\n6)---Medical/Healthcare---\n7)---Debt---\n8)---Entertainment---\n9)---Other---")
-            category_choice = input("Specify the category of expense: ")
+            # print("\nPossible categories: \n1)---Housing---\n2)---Transportation---\n3)---Food---\n4)---Utilities---\n5)---Clothing---\n6)---Medical/Healthcare---\n7)---Debt---\n8)---Entertainment---\n9)---Other---")
             category_tup = {'1': 'Housing', '2': 'Transportation', '3': 'Food', '4': 'Utilities', '5': 'Clothing',
                             '6': 'Medical/Healthcare', '7': 'Debt', '8': 'Entertainment', '9': 'Other'}
+            for i in category_tup:
+                print(f"{i}) --{category_tup[i]}--")
+            category_choice = Prompt.ask("Select option", choices=["1", "2", "3", "4", "5", "6", "7", "8", "9"])                       # input("Specify the category of expense: ")
             category = category_tup.get(category_choice)
             if category:
-                amount = float(input("Specify the amount of expense: "))
-                currency = input("Specify the currency of the expense: ")
+                amount = FloatPrompt.ask("Specify the amount of expense: ")                                    # float(input("Specify the amount of expense: "))
+                currency = Prompt.ask("Specify the currency of the expense: ")                               # input("Specify the currency of the expense: ")
                 manager.add_expense(category, amount, currency)
             else:
                 print("Incorrect category section. Try again")
@@ -148,7 +152,7 @@ if __name__ == "__main__":
             print("Thank you for using the app")
             break
         elif menu_choice == '5':
-            filename = input("Enter the filename (with .xlsx extension): ")
+            filename = Prompt.ask("Enter the filename (with .xlsx extension): ", default="budget.xlsx")                                 # input("Enter the filename (with .xlsx extension): ")
             manager.export_to_excel(filename)
         else:
             print("Incorrect selection. Try again.")
