@@ -1,5 +1,6 @@
 import budget_manager
 import table
+from rich import print
 
 
 if __name__=="__main__":
