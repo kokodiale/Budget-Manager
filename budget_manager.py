@@ -1,6 +1,7 @@
 from rich import print
 import pandas as pd
 from rich.prompt import Prompt, FloatPrompt, IntPrompt
+import os
 
 class BudgetManager:
     def __init__(self):
@@ -34,11 +35,32 @@ class BudgetManager:
         df.loc[len(df.index)] = ["Wallet", self.wallet]
         df.to_excel(filename, index=False)
         print(f"Data succesfully exported to {filename}")
+    
+    #funkcja działa zawsze po starcie kodu tóż przed poproszeniem użytkownika o dane, pozwala podjąc decyzję czy chcę on importować
+    def xlsx_finder(self):
+        all_files = os.listdir()
+        xlsx_files = [file for file in all_files if file.endswith('.xlsx')]
+        if len(xlsx_files) == 0:
+            return []
+        else:
+            decition = Prompt.ask("The program has detected an .xlsx file, you want to import data from it" ,choices=["yes", "no"], default="no")
+            match decition:
+                case "yes":
+                    print("teraz mogę importować")
+                    return xlsx_files
+                case "no":
+                    return []
+
+
 
     def set_monthly_income(self):
-        self.monthly_income = FloatPrompt.ask("Specify your monthly income")                 # float(input("Specify your monthly income: "))
+        xlsx = self.xlsx_finder()
+        self.monthly_income = FloatPrompt.ask("Specify your monthly income")      
         self.wallet = self.monthly_income
         self.currency = user_currency()
+
+
+
 
     def add_expense(self, category, amount, currency):
         converted_amount = self.convert_to_pln(amount, currency)
@@ -143,3 +165,10 @@ if __name__ == "__main__":
             case "5":
                 filename = Prompt.ask("Enter the filename (with .xlsx extension)", default="budget.xlsx")                                
                 manager.export_to_excel(filename)
+
+
+
+
+# Import z pliku exel
+# dynamiczne rozszerzenie listy walut przez użytkownika
+# *te waluty nie były z góry definiowane tylko robione poprzez API
