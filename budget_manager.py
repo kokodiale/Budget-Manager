@@ -43,23 +43,37 @@ class BudgetManager:
         if len(xlsx_files) == 0:
             return []
         else:
-            decition = Prompt.ask("The program has detected an .xlsx file, you want to import data from it" ,choices=["yes", "no"], default="no")
+            decition = Prompt.ask("The program has detected an .xlsx file, you want to import data from it" ,choices=["yes", "no"], default="no") #jeśli jest dostępny plik .xlsx ta linijka zapyta użytkownika czy chce on go zaimpotrować
             match decition:
                 case "yes":
-                    print("teraz mogę importować")
                     return xlsx_files
                 case "no":
                     return []
 
-
-
     def set_monthly_income(self):
-        xlsx = self.xlsx_finder()
-        self.monthly_income = FloatPrompt.ask("Specify your monthly income")      
-        self.wallet = self.monthly_income
-        self.currency = user_currency()
-
-
+        xlsx_files = self.xlsx_finder()       #wstawienie wyniku funkcji sprawdzającej do obecnej
+        if len(xlsx_files) == 0:              # sprawdzenie czy w obecnym folderze są pliki z rozszerzeniem .xlsx
+            self.monthly_income = FloatPrompt.ask("Specify your monthly income")      
+            self.wallet = self.monthly_income
+            self.currency = user_currency()
+        else:
+            if len(xlsx_files) == 1:      
+                user_file = xlsx_files[0]      #automatyczny import z pliku gdy jest dostępny tylko jeden
+            else: 
+                user_file = Prompt.ask("Please select a file", choices=xlsx_files)       #gdy program wykyje wiecej plików w odpowiednim formacie zapyta którego użyć
+            df = pd.read_excel(user_file, sheet_name='Sheet1')                       #df to arkusz do którego się odnosimy
+            self.monthly_income = df.iat[9, 1]                     #przypisanie wartości do miesięcznych wpływów z komurki o wspórzędnych [9,1][index_wiersza, index_kolumny]
+            self.wallet = df.iat[10, 1]
+            self.currency = user_currency()           #bez zmian
+            self.expenses["Housing"] = df.iat[0, 1]
+            self.expenses["Transportation"] = df.iat[1, 1]
+            self.expenses["Food"] = df.iat[2, 1]
+            self.expenses["Utilities"] = df.iat[3, 1]
+            self.expenses["Clothing"] = df.iat[4, 1]
+            self.expenses["Medical/Healthcare"] = df.iat[5, 1]
+            self.expenses["Debt"] = df.iat[6, 1]
+            self.expenses["Entertainment"] = df.iat[7, 1]
+            self.expenses["Other"] = df.iat[8, 1]
 
 
     def add_expense(self, category, amount, currency):
@@ -135,7 +149,6 @@ if __name__ == "__main__":
         print("\n--- [blue]Menu[/blue] ---")
         for i in menu:
                 print(f"{i}. {menu[i]}")
-
 
         menu_choice = Prompt.ask("Select option", choices=["1", "2", "3", "4", "5"])
 
