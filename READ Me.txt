@@ -11,8 +11,5 @@ https://www.youtube.com/watch?v=i_23KUAEtUM   #spoko film w zasadzie do zobaczen
 
 
 Używane biblioteki:
-Rich      # biblioteka do ulepszenia kosoli
-Dokumentacja, git hub oraz film do przedstawienia jak to mniej więcej działa
-https://www.youtube.com/watch?v=4zbehnz-8QU  -szybki film jak działa tak mniej więcej
-https://rich.readthedocs.io/en/stable/         
-https://github.com/Textualize/rich
+Rich      # biblioteka do ulepszenia kosoli, https://www.youtube.com/watch?v=4zbehnz-8QU  -szybki film jak działa tak mniej więcej
+pandas    #biblioteka do obsługi plików exel
