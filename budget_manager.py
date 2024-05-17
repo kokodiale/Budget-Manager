@@ -89,17 +89,11 @@ class BudgetManager:
 
 def user_currency():
     Cur_Dict = {1:"PLN", 2:"USD", 3:"EUR", 4:"JPY"}
-    print("--- [blue]Currency[/blue] ---")                    #zamieniłem poprzednie menu mniejszą ilością linijek
+    print("--- [blue]Currency[/blue] ---")
     for i in Cur_Dict:
                 print(f"{i}. {Cur_Dict[i]}")
-    # print("\n--- Currency ---")
-    # print("1. PLN")
-    # print("2. USD")
-    # print("3. EUR")
-    # print("4. JPY")
-    # print("5. other")
 
-    currency_choice = IntPrompt.ask("Select option", choices=["1", "2", "3", "4"])                 # input("Select option (1/2/3/4/5): ")
+    currency_choice = IntPrompt.ask("Select option", choices=["1", "2", "3", "4"])       
     match currency_choice:
         case "1":
             return "PLN"
@@ -110,22 +104,6 @@ def user_currency():
         case "4":
             return "JPY"
 
-    # if currency_choice == '1':
-    #     return "PLN"
-    # elif currency_choice == '2':
-    #     return "USD"
-    # elif currency_choice == '3':
-    #     return "EUR"
-    # elif currency_choice == '4':
-    #     return "JPY"
-    # elif currency_choice == '5':
-    #     other_currency = Prompt.ask("Enter the abbreviation of your own currency")                      #input("Enter the abbreviation of your own currency: ")
-    #     return other_currency.upper()
-    # else:
-    #     print("Incorrect selection. Try again.")
-    #     return user_currency()
-
-
 if __name__ == "__main__":
     manager = BudgetManager()
     manager.set_monthly_income()
@@ -135,27 +113,21 @@ if __name__ == "__main__":
         print("\n--- [blue]Menu[/blue] ---")
         for i in menu:
                 print(f"{i}. {menu[i]}")
-        # print("1. Add expense")
-        # print("2. View budget")
-        # print("3. View balance")
-        # print("4. Finish")
-        # print("5. Export to Excel")
 
-        menu_choice = Prompt.ask("Select option", choices=["1", "2", "3", "4", "5"])       #input("Select option (1/2/3/4/5): ")
 
-#printa zamienic na print z category_tup(zrobione ':)' )
+        menu_choice = Prompt.ask("Select option", choices=["1", "2", "3", "4", "5"])
+
         match menu_choice:
             case "1":
-                # print("\nPossible categories: \n1)---Housing---\n2)---Transportation---\n3)---Food---\n4)---Utilities---\n5)---Clothing---\n6)---Medical/Healthcare---\n7)---Debt---\n8)---Entertainment---\n9)---Other---")
                 category_tup = {'1': 'Housing', '2': 'Transportation', '3': 'Food', '4': 'Utilities', '5': 'Clothing',
                                 '6': 'Medical/Healthcare', '7': 'Debt', '8': 'Entertainment', '9': 'Other'}
                 for i in category_tup:
                     print(f"{i}) --{category_tup[i]}--")
-                category_choice = Prompt.ask("Select option", choices=["1", "2", "3", "4", "5", "6", "7", "8", "9"])                       # input("Specify the category of expense: ")
+                category_choice = Prompt.ask("Select option", choices=["1", "2", "3", "4", "5", "6", "7", "8", "9"])                
                 category = category_tup.get(category_choice)
                 if category:
-                    amount = FloatPrompt.ask("Specify the amount of expense")                                    # float(input("Specify the amount of expense: "))
-                    currency = Prompt.ask("Specify the currency of the expense")                               # input("Specify the currency of the expense: ")
+                    amount = FloatPrompt.ask("Specify the amount of expense")                               
+                    currency = Prompt.ask("Specify the currency of the expense")                   
                     manager.add_expense(category, amount, currency)
                 else:
                     print("Incorrect category section. Try again")
@@ -169,5 +141,5 @@ if __name__ == "__main__":
                 print("Thank you for using the app")
                 break
             case "5":
-                filename = Prompt.ask("Enter the filename (with .xlsx extension)", default="budget.xlsx")                                 # input("Enter the filename (with .xlsx extension): ")
+                filename = Prompt.ask("Enter the filename (with .xlsx extension)", default="budget.xlsx")                                
                 manager.export_to_excel(filename)
